@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class Game extends JPanel{
-
+	static JFrame game = new JFrame();
 	private static final long serialVersionUID = -2147680159621095414L;
 	static final Color BG_COLOR = new Color(0xbbada0);
 	static final String FONT_NAME = "Arial";
@@ -28,15 +28,16 @@ public class Game extends JPanel{
 	Image image;
 	int max;
 	int score,xx,yy;
+	
 	public Game(){
 	    setFocusable(true);
-	    addKeyListener(new KeyAdapter() {//閿洏閫傞厤鍣�
+	    addKeyListener(new KeyAdapter() {
 	    	@Override
 	    	public void keyPressed(KeyEvent e) {
 	    		super.keyPressed(e);
 	    		moveList = new ArrayList<Tile>(16);
 	    		mergeList = new ArrayList<Tile>(16);
-	    		System.out.println(" "+KeyEvent.getKeyText(e.getKeyCode())+" 閿鎸変笅\n") ;
+	    		System.out.println(" "+KeyEvent.getKeyText(e.getKeyCode())+"\n") ;
 	    		//System.out.println(KeyEvent.getKeyText(e.getKeyCode())+"\n") ;
 	    		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					resetGame();
@@ -45,6 +46,10 @@ public class Game extends JPanel{
 	    		if (e.getKeyCode() == KeyEvent.VK_SPACE && !isLose) {
 					isWin = false;
 				}
+	    		if(e.getKeyCode()==KeyEvent.VK_E) {
+	    			game.dispose();
+	    			Main2048.main(null);;
+	    		}
 
 				if (!isWin && !isLose) {
 					resultTiles = newTile(tiles);
@@ -62,9 +67,10 @@ public class Game extends JPanel{
 					case KeyEvent.VK_DOWN:
 						moveDown();
 						break;
-					}
+					}	
 					setDefaultTile(resultTiles);
 					tiles = newTile(resultTiles);
+					
 				}
 
 				if (!canMove()) {
@@ -86,6 +92,8 @@ public class Game extends JPanel{
 					return true;
 		return false;
 	}
+	
+	
 	protected void addTile() {
 		List<Tile> list = availableSpace();
 		if (!availableSpace().isEmpty()) {
@@ -348,6 +356,7 @@ public class Game extends JPanel{
 		animateOver = true;
 	}
 	protected void showMerge(){
+
 		animateOver = false;
 		Graphics gg = getGraphics();
 		image = this.createImage(this.getSize().width, this.getSize().height);
@@ -532,7 +541,7 @@ public class Game extends JPanel{
 			}
 		}
 	}
-	public class AePlayWave extends Thread { 	 //鎾斁wave鏍煎紡澹伴煶锛屽绾跨▼
+	public class AePlayWave extends Thread { 	 
 	    private String filename;
 	    private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb 
 
@@ -587,16 +596,17 @@ public class Game extends JPanel{
 	        } 
 	    } 
 	} 
+	
+		
 	public static void main(String[] args) {
-		JFrame game = new JFrame();//鍒涘缓绐椾綋绫诲璞�
 	    game.setTitle("2048");
-	    //System.out.println("娓告垙寮�濮�");
-	    game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//榛樿鍏抽棴鎿嶄綔
+	    game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    game.setSize(340, 400);
-	    game.setResizable(false);//绐楀彛鏄惁鍙皟
-	    game.setLocationRelativeTo(null);//鐩稿浣嶇疆
+	    game.setResizable(false);
+	    game.setLocationRelativeTo(null);
 	    game.add(new Game());
-
-	    game.setVisible(true);//鎶婂浘褰㈢晫闈㈣缃负鍙
+	    game.setVisible(true);
+//	   
+	    
 	}
 }

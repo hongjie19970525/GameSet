@@ -3,6 +3,8 @@ package PlaneWar;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -16,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ShootGame extends JPanel{
-	
+	static JFrame frame = new JFrame("Fly");
 	private int state;
 	public static final int START = 0;
 	public static final int RUNNING = 1;
@@ -56,7 +58,77 @@ public class ShootGame extends JPanel{
 			break;
 		}
 	}
-	public ShootGame(){}
+	public ShootGame(){
+		
+		setFocusable(true);
+		MouseAdapter l = new MouseAdapter(){
+			public void mouseMoved(MouseEvent e){
+				if(state == RUNNING){
+					int x = e.getX();
+					int y = e.getY();
+					hero.moveTo(x, y);
+				}
+			}
+			
+			public void mouseEntered(MouseEvent e){//鼠标进入
+				if(state== PAUSE)
+					state = RUNNING;
+			}
+			
+			public void mouseExited(MouseEvent e){
+				if(state != GAME_OVER)
+						state =  PAUSE;
+			}
+			
+			public void mouseClicked(MouseEvent e){
+				switch(state){
+				case START:
+					state = RUNNING;
+					break;
+				case GAME_OVER:
+					flyings = new FlyingObject[0];
+					bullets = new Bullet[0];
+					hero = new Hero();
+					score = 0;
+					state = START;
+					break;
+				}
+			}
+		};
+		this.addMouseListener(l);
+		this.addMouseMotionListener(l);
+//		timer = new Timer();
+		timer.schedule(new TimerTask(){
+			public void run(){
+				if(state == RUNNING){
+					enterAction();
+					stepAction();
+					shootAction();
+					bangAction();
+					
+					outOfBoundsAction();//删除越界飞行物
+					checkGameOverAction();	
+				}
+				repaint();
+			}
+		}, intervel, intervel);
+		
+		/**
+		 * 设置键盘监听事件，当按下E键的时候，frame.dispose,并且打开Mainwar
+		 */
+		
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				super.keyPressed(e);
+				if(e.getKeyCode()==KeyEvent.VK_E) {
+					frame.dispose();
+					Mainwar.main(null);
+				}
+			}
+		});
+	}
 	
 	//随机生成飞行物
 	public static FlyingObject nextOne(){
@@ -246,22 +318,20 @@ public class ShootGame extends JPanel{
 		}
 	}
 	public static void main(String[] args) {
-		
-		JFrame frame = new JFrame("Fly");
-		ShootGame game = new ShootGame();
-		
-		frame.add(game);
+		//ShootGame game = new ShootGame();
+		frame.add(new ShootGame());
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setAlwaysOnTop(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
-		game.action();
+		//game.action();
 	}
 	
 	public void action(){
 		//鼠标滑动方法
+		
 		MouseAdapter l = new MouseAdapter(){
 			public void mouseMoved(MouseEvent e){
 				if(state == RUNNING){
@@ -298,6 +368,8 @@ public class ShootGame extends JPanel{
 		};
 		this.addMouseListener(l);
 		this.addMouseMotionListener(l);
+
+
 		
 //		timer = new Timer();
 		timer.schedule(new TimerTask(){
