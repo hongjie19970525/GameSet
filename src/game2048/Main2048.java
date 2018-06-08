@@ -1,10 +1,12 @@
 package game2048;
 
+import java.awt.Color;
 import java.awt.Component;
 import main.MainFrame;
 import main.Mid;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Main2048 {
-
+	String str="These are the voyage of the starship Enterprice. Her continie mission is "
+			+"to explore strange new worlds to seek out the new life and new civilization "
+			+"to boldy go where no one has gone before";
 	private JFrame frame;
 
 	/**
@@ -64,7 +68,7 @@ public class Main2048 {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
-		Image image = ImageIO.read(new File("Images/background1.jpeg"));
+		Image image = ImageIO.read(new File("Images/background2.jpeg"));
 		ImageIcon background = new ImageIcon(image);
 		
 		
@@ -76,29 +80,40 @@ public class Main2048 {
 		panel.setBounds(0, 0, 450, 500);
 		panel.setLayout(null);
 		jpanelhelp.setLayout(null);
+		panel.setBackground(null);
+		panel.setOpaque(false);
+		jpanelhelp.setBackground(null);
+		jpanelhelp.setOpaque(false);
 		frame.getContentPane().add(panel);
 		frame.getContentPane().add(jpanelhelp);
-		JButton ButtonStart = new JButton("GameStart");
+		Mybutton ButtonStart = new Mybutton("GameStart",Color.ORANGE);
+		
 		ButtonStart.setBounds(164, 91, 97, 23);
 		panel.add(ButtonStart);
-		JButton ButtonHelp = new JButton("HELP");
+		Mybutton ButtonHelp = new Mybutton("HELP",Color.ORANGE);
 		ButtonHelp.setBounds(191, 237, 62, 23);
 		panel.add(ButtonHelp);		
-		JButton ButtonBack = new JButton("BACK");
+		Mybutton ButtonBack = new Mybutton("BACK",Color.ORANGE);
 		ButtonBack.setBounds(191, 380, 62, 23);
 		panel.add(ButtonBack);
 		
 		/**
 		 * jpanelhelp的布局
 		 */
-		JButton jhelpback=new JButton("BACK");
+		Mybutton jhelpback=new Mybutton("BACK",Color.ORANGE);
 		//jhelpback.setSize(100, 50);
 		jhelpback.setBounds(175, 400, 100, 50);
 		jpanelhelp.setBounds(0, 0, 450, 500);
 		jpanelhelp.setVisible(false);
 		JTextArea jta=new JTextArea();
-		jta.setText("these are the voyage of the starship ENTERPRICE");
-		jta.setBounds(100, 150, 100, 100);
+		jta.setText(str);
+		jta.setWrapStyleWord(true);
+		jta.setLineWrap(true);
+		jta.setBackground(null);
+		jta.setOpaque(false);
+		Font f=new Font("Ariel",Font.BOLD,12);
+		jta.setBounds(180, 150, 130, 190);
+		jta.setFont(f);
 		jpanelhelp.add(jta);
 		jpanelhelp.add(jhelpback);
 		

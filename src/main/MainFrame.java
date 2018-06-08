@@ -68,8 +68,7 @@ public class MainFrame {
 		Button1.setForeground(Color.CYAN);
 		
 		Button1.setBounds(314, 110, 104, 23);
-		Button1.addActionListener(new ActionListener() {
-			
+		Button1.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -80,10 +79,8 @@ public class MainFrame {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-								
-			    frame.dispose();
-				
+				}								
+			    frame.dispose();				
 			}
 		});
 		frame.getContentPane().add(Button1);
@@ -99,10 +96,17 @@ public class MainFrame {
 		Button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Mainwar mainwar=new Mainwar();
-				mainwar.main(null);
-			
-			    frame.dispose();
+				Mainwar mainwar;
+				try {
+					mainwar = new Mainwar();
+					mainwar.main(null);
+					
+				    frame.dispose();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 
 				
 			}

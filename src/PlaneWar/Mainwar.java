@@ -1,18 +1,27 @@
 package PlaneWar;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import main.MainFrame;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Mainwar {
-
+	String str="These are the voyage of the starship Enterprice. Her continie mission is "
+			+"to explore strange new worlds to seek out the new life and new civilization "
+			+"to boldy go where no one has gone before";
 	private JFrame frame;
 
 	/**
@@ -33,15 +42,17 @@ public class Mainwar {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public Mainwar() {
+	public Mainwar() throws IOException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 		frame = new JFrame();
 		frame.setTitle("PlaneWar");
 		frame.setSize(400,654);
@@ -49,6 +60,9 @@ public class Mainwar {
 		//frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		Image image = ImageIO.read(new File("Images/background3.jpg"));
+		ImageIcon background = new ImageIcon(image);
+		
 		
 		JPanel panel = new JPanel();
 		JPanel panelhelp=new JPanel();
@@ -56,33 +70,57 @@ public class Mainwar {
 		panelhelp.setVisible(false);
 		panelhelp.setLayout(null);
 		panel.setBounds(0, 0, 400, 654);
+		panel.setLayout(null);
 		frame.getContentPane().add(panel);
 		frame.getContentPane().add(panelhelp);
-		panel.setLayout(null);
+		
+		/**
+		 * 添加背景图片
+		 */
+		JLabel backgroundLabel = new JLabel("");
+		JPanel panelback=new JPanel();
+		panelback.setBounds(0,0,400,654);
+		panelback.setLayout(null);
+		backgroundLabel.setBounds(0, 0, 400,654);
+		backgroundLabel.setIcon(background);      
+		panelback.add(backgroundLabel);
+		frame.getContentPane().add(panelback);
+		
+		//把panel透明，使最底层的panelback能把背景图片显示出来
+		panel.setBackground(null);
+		panel.setOpaque(false);
+		panelhelp.setBackground(null);
+		panelhelp.setOpaque(false);
 		
 		
 		/**
 		 * panelhelp的布局
 		 */
 		
-		JButton helpback=new JButton("BACK");
+		Mybutton helpback=new Mybutton("BACK",Color.ORANGE);
 		JTextArea jta=new JTextArea();
-		jta.setText("these are the voyage of \n the starship ENTERPRICE");
-		jta.setBounds(110, 100, 150, 150);
+		jta.setWrapStyleWord(true);
+		jta.setLineWrap(true);
+		jta.setBackground(null);
+		jta.setOpaque(false);
+		jta.setText(str);
+		jta.setBounds(140, 120, 130, 190);
+		Font f=new Font("Ariel",Font.BOLD,12);
+		jta.setFont(f);
 		helpback.setBounds(150, 550, 100, 50);
 		panelhelp.add(helpback);
 		panelhelp.add(jta);
 		
 		
-		JButton btnGamestart = new JButton("GameStart");
+		Mybutton btnGamestart = new Mybutton("GameStart",Color.ORANGE);
 		btnGamestart.setBounds(145, 96, 104, 23);
 		panel.add(btnGamestart);
 		
-		JButton btnHelp = new JButton("HELP");
+		Mybutton btnHelp = new Mybutton("HELP",Color.ORANGE);
 		btnHelp.setBounds(145, 285, 104, 23);
 		panel.add(btnHelp);
 		
-		JButton btnBack = new JButton("BACK");
+		Mybutton btnBack = new Mybutton("BACK",Color.ORANGE);
 		btnBack.setBounds(145, 453, 104, 23);
 		panel.add(btnBack);
 		
