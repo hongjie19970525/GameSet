@@ -1,7 +1,6 @@
 # GameSet
 游戏选择界面
-  使用原生JAVA写的简陋的选择界面（待更新）
-
+  使用原生JAVA写的简陋的选择界面，在GAMESET文件内
 ### 6.6update
 #### BUG的情况在BUG.DOCX中
 1.实现了页面间的来回跳转  
